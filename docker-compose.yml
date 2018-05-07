@@ -1,0 +1,35 @@
+version: '2.2'
+services:
+  project_database:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=project
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql:rw
+    command:
+      mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --init-connect='SET NAMES UTF8;'
+
+  app:
+    image: node:alpine
+    working_dir: /www/project
+    volumes:
+      - ./:/www/project:rw
+    links:
+        - project_database
+    depends_on:
+        project_database:
+            condition: service_healthy
+    ports:
+        - "3000:3000"
+    command: >
+        sh -c "until nc -z -v -w30 project_database 3306;do echo "Waiting"; sleep 2; done;
+        dos2unix bin/reset-db.sh;
+        sh /usr/local/bin/npm install -g yarn;
+        sh /usr/local/bin/yarn --verbose;
+        sh bin/reset-db.sh;
+        sh /usr/local/bin/yarn --verbose run start:dev"

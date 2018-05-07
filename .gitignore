@@ -1,0 +1,7 @@
+.idea/
+.vscode/
+node_modules/
+*.log
+!data/mysql/.gitkeep
+data/mysql
+dist/
