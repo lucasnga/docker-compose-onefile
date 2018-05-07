@@ -1,12 +1,14 @@
-## Docker compose single file
+# Docker compose single file
 
-# Description
+## Description
 
-A simple project designed to show a few tricks that can be used in a docker-compose configuration file. 
-
+A simple project designed to show a few tricks that can be used in a docker-compose configuration file.
+Of course, this approach is an anti-pattern ( but usefull in some cases ).
 Works in exactly the same way on Windows and Linux.
 
-# Running 
+
+
+## Running
 
 Install the docker and docker-compose.
 Simply start the project in the project directory by running:
